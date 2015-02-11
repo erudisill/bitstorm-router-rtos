@@ -5,6 +5,7 @@
  *      Author: ericrudisill
  */
 
+#include <stdio.h>
 #include "task_serial_test.h"
 
 #define BUFFER_MAX		20
@@ -24,6 +25,7 @@ static void serial0_flush(void) {
 
 static portTASK_FUNCTION(task_tx, params) {
 	portBASE_TYPE result;
+	UBaseType_t hwm;
 	signed char inChar;
 
 	xSerialPortInitMinimal(38400, 64);
@@ -34,20 +36,27 @@ static portTASK_FUNCTION(task_tx, params) {
 
 	for (;;) {
 
-		result = xSerialGetChar(NULL, &inChar, 100);
+		result = xSerialGetChar(NULL, &inChar, 0xFFFF);
 
 		if (result == pdTRUE) {
 			if (inChar == '\r') {
+				hwm = uxTaskGetStackHighWaterMark(NULL);
 				serial0_putsz("\r\nECHO: ");
 				serial0_flush();
-				serial0_putsz("\r\n> ");
+				hwm = uxTaskGetStackHighWaterMark(NULL);
+				sprintf((char*)inBuffer, "\r\n%d >", hwm);
+				serial0_putsz((char*)inBuffer);
+				//serial0_putsz("\r\n> ");
 			} else {
 				inBuffer[bufferIndex++] = inChar;
 				xSerialPutChar(NULL, inChar, 0);
 				if (bufferIndex >= BUFFER_MAX) {
 					serial0_putsz("\r\nOVERFLOW: ");
 					serial0_flush();
-					serial0_putsz("\r\n> ");
+					hwm = uxTaskGetStackHighWaterMark(NULL);
+					sprintf((char*)inBuffer, "\r\n%d >", hwm);
+					serial0_putsz((char*)inBuffer);
+					//serial0_putsz("\r\n> ");
 				}
 			}
 		}

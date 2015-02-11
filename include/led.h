@@ -10,6 +10,8 @@
 
 void led_init(void);
 void led_toggle(void);
-
+void led_alert_on(void);
+void led_alert_off(void);
+void led_alert_toggle(void);
 
 #endif /* LED_H_ */

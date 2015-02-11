@@ -91,13 +91,16 @@
 #define configTICK_RATE_HZ			( ( TickType_t ) 1000 )
 #define configMAX_PRIORITIES		( 4 )
 //#define configMINIMAL_STACK_SIZE	( ( unsigned short ) 85 )
-#define configMINIMAL_STACK_SIZE	( ( unsigned short ) 128 )
+#define configMINIMAL_STACK_SIZE	( ( unsigned short ) 200 )
 #define configTOTAL_HEAP_SIZE		( (size_t ) ( 1500 ) )
 #define configMAX_TASK_NAME_LEN		( 8 )
 #define configUSE_TRACE_FACILITY	0
 #define configUSE_16_BIT_TICKS		1
 #define configIDLE_SHOULD_YIELD		1
 #define configQUEUE_REGISTRY_SIZE	0
+
+/* Check for stack overflow by inspecting 16 known bytes on stack */
+#define configCHECK_FOR_STACK_OVERFLOW 2
 
 /* Co-routine definitions. */
 #define configUSE_CO_ROUTINES 		0
@@ -114,5 +117,6 @@ to exclude the API function. */
 #define INCLUDE_vTaskDelayUntil			1
 #define INCLUDE_vTaskDelay				1
 
+#define INCLUDE_uxTaskGetStackHighWaterMark 1
 
 #endif /* FREERTOS_CONFIG_H */

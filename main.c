@@ -21,5 +21,9 @@ int main(void) {
 
 	return 0;
 }
+
+void vApplicationStackOverflowHook( TaskHandle_t xTask, signed char *pcTaskName ) {
+	led_alert_on();
+}
 /*-----------------------------------------------------------*/
 
