@@ -10,8 +10,6 @@
 
 static portTASK_FUNCTION(task_blinky, pvParameters) {
 
-	led_init();
-
 	portTickType xLastWakeTime;
 	const portTickType xFrequency = 1000;
 	xLastWakeTime = xTaskGetTickCount();
@@ -24,5 +22,7 @@ static portTASK_FUNCTION(task_blinky, pvParameters) {
 
 void task_blinky_start( UBaseType_t uxPriority )
 {
+	led_init();
+
 	xTaskCreate( task_blinky, "blinky", configMINIMAL_STACK_SIZE, NULL, uxPriority, ( TaskHandle_t * ) NULL );
 }

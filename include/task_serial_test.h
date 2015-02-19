@@ -12,7 +12,9 @@
 
 #include "FreeRTOS.h"
 #include "task.h"
+#include "queue.h"
 #include "serial.h"
+#include "led.h"
 
 void task_serial_test_start( UBaseType_t uxPriority );
 
